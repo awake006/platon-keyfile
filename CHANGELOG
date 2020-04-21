@@ -1,0 +1,23 @@
+0.4.0
+-----
+
+- Rename repo and module to `platon-keyfile`
+- Added deprecation warning for python 2
+
+
+0.3.0
+-----
+
+- Add `address` key to generated keyfile JSON
+
+
+0.2.0
+-----
+
+- Remove `0x` prefixes from hex values in generated json.
+
+
+0.1.0
+-----
+
+Initial release
