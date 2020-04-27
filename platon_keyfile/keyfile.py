@@ -132,11 +132,15 @@ def _create_v3_keyfile_json(private_key, password, kdf,
     encrypt_key = derived_key[:16]
     ciphertext = encrypt_aes_ctr(private_key, encrypt_key, iv)
     mac = keccak(derived_key[16:32] + ciphertext)
+    pub = keys.PrivateKey(private_key).public_key
 
-    address = keys.PrivateKey(private_key).public_key.to_bech32_address()
-
+    address = pub.to_bech32_address()
+    test_address = pub.to_bech32_test_address()
     return {
-        'address': remove_0x_prefix(address),
+        'address': {
+            "mainnet": remove_0x_prefix(address),
+            "testnet": remove_0x_prefix(test_address),
+        },
         'crypto': {
             'cipher': 'aes-128-ctr',
             'cipherparams': {
@@ -274,3 +278,6 @@ def get_default_work_factor_for_kdf(kdf):
         return 262144
     else:
         raise ValueError("Unsupported key derivation function: {0}".format(kdf))
+
+if __name__ == '__main__':
+    print(create_keyfile_json(bytes.fromhex("deb2bd10eedef6d89cd8fac224dc8f1bdd26ed1c4b5c513995efb1b33404db17"),"88888888"))
